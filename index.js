@@ -4,6 +4,7 @@ let oldLeads = []
 const inputEl = document.getElementById("input-el")
 const inputBtn = document.getElementById("input-btn")
 const clearBtn = document.getElementById("delete-btn")
+const tabBtn = document.getElementById("tab-btn")
 const ulEl = document.getElementById("ul-el")
 const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
 
@@ -33,6 +34,29 @@ function render(leads) {
     ulEl.innerHTML = listItems
 }
 
+// Saves leads from input field to myLeads array and localStorage
+inputBtn.addEventListener("click", function() {
+    // Get the value from the input field
+    // Push it to myLeads array
+    // Call renderLeads() to display the updated list
+    myLeads.push(inputEl.value)
+    inputEl.value = "" // Clear the input field after adding
+    localStorage.setItem("myLeads", JSON.stringify(myLeads)) // Save to localStorage)
+    render(myLeads)
+
+})
+
+
+// Saves lead from the current tab to myLeads array and localStorage
+tabBtn.addEventListener("click", function() {
+    // Grab the current tab URL using the Chrome Tabs API
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          // Get the current tab URL and push it to myLeads array
+            myLeads.push(tabs[0].url)
+            localStorage.setItem("myLeads", JSON.stringify(myLeads)) // Save to localStorage)
+            render(myLeads)
+    })
+})
 
 // Delete all leads when clear button is double clicked
 clearBtn.addEventListener( "dblclick", function() { 
@@ -42,18 +66,6 @@ clearBtn.addEventListener( "dblclick", function() {
     // Clear the localStorage
     localStorage.clear()
     // Render the updated list
-    render(myLeads)
-
-})
-
-// Saves leads from input field to myLeads array and localStorage
-inputBtn.addEventListener("click", function() {
-    // Get the value from the input field
-    // Push it to myLeads array
-    // Call renderLeads() to display the updated list
-    myLeads.push(inputEl.value)
-    inputEl.value = "" // Clear the input field after adding
-    localStorage.setItem("myLeads", JSON.stringify(myLeads)) // Save to localStorage)
     render(myLeads)
 
 })
