@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js"
 import { getDatabase
         ref,
-        push, } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js"
+        push,
+        onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js"
 
 const firebaseConfig = {
     databaseURL: process.env.DATABASE_URL
@@ -50,8 +51,11 @@ inputBtn.addEventListener("click", function() {
 // Delete all leads when clear button is double clicked
 clearBtn.addEventListener( "dblclick", function() { 
 
-    // Render the updated list
-    render(myLeads)
 
 })
 
+onValue(referenceInDB, function(snapshot) {
+    const snapshotValues = snapshot.val()
+    const leads = Object.values(snapshotValues)
+    render(leads)
+})
