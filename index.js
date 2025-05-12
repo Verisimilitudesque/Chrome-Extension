@@ -1,17 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js"
-import { getDatabase
-        ref,
-        push,
-        onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"
+import { getDatabase,
+         ref,
+         push,
+         onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"
 
 const firebaseConfig = {
     databaseURL: process.env.DATABASE_URL
 }
+
 const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const referenceInDB = ref(database, "leads")
-
-console.log(firebaseConfig.databaseURL)
 
 // Extension variables & arrays
 const inputEl = document.getElementById("input-el")
@@ -41,21 +40,22 @@ function render(leads) {
 
 // Saves leads from input field to myLeads array and localStorage
 inputBtn.addEventListener("click", function() {
-
     push(referenceInDB, inputEl.value) // Push the input value to the myLeads array
     inputEl.value = "" // Clear the input field after adding
 
 })
 
-
 // Delete all leads when clear button is double clicked
 clearBtn.addEventListener( "dblclick", function() { 
-
-
+    remove(referenceInDB)
+    ulEl.innerHTML = ""
 })
 
 onValue(referenceInDB, function(snapshot) {
-    const snapshotValues = snapshot.val()
-    const leads = Object.values(snapshotValues)
-    render(leads)
+    const snapshotDoesExist = snapshot.exists()
+    if (snapshotDoesExist) {
+        const snapshotValues = snapshot.val()
+        const leads = Object.values(snapshotValues)
+        render(leads)
+    }
 })
