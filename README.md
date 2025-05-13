@@ -1,8 +1,8 @@
 📘 Coursera Guided Project: Chrome Extension - Lead Tracker
 
-🧠 Overview The design and development of a simple lead tracker chrome extension as well as a branch detailing Firebase integration.
+🧠 Overview: The design and development of a simple lead tracker chrome extension as well as a branch detailing Firebase integration.
 
-📚 Course Information Course Name: Scrimba - Learn JavaScrip
+📚 Course Information Course Name: Scrimba - Learn JavaScript
 
 Instructor(s): Per Harald Borgen
 
